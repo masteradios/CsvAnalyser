@@ -21,7 +21,7 @@ java_opts: "-Xms256m -Xmx512m"
 service_user: "{{ app_user }}"
 
 # Health check (optional). If not needed set health_uri: ""
-health_uri: "http://localhost:8080/actuator/health"
+health_uri: ""
 health_retries: 6
 health_delay: 5   # seconds between retries
 

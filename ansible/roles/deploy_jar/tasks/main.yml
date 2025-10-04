@@ -25,6 +25,13 @@
   become: false 
   run_once: true
 
+- name: Debug local jar path
+  debug:
+    msg: "Looking for JAR at {{ local_jar_path }}"
+  delegate_to: localhost
+  run_once: true
+
+
 - name: Fail if local JAR is missing
   fail:
     msg: "Local artifact not found at {{ local_jar_path }} (control node). Place the built jar there before running playbook."
