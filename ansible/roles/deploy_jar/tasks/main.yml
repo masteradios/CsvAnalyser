@@ -22,6 +22,7 @@
     path: "{{ local_jar_path }}"
   register: local_jar_stat
   delegate_to: localhost
+  become: false 
   run_once: true
 
 - name: Fail if local JAR is missing
