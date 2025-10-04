@@ -7,8 +7,8 @@ deploy_dir: /opt/{{ app_name }}               # where jar will live on remote ho
 backup_dir: "{{ deploy_dir }}/backup"
 app_user: ubuntu                              # user owning the files on remote host
 app_group: ubuntu
-local_jar_path: "{{ playbook_dir }}/../artifacts/{{ jar_filename }}" 
-#local_jar_path: "/var/lib/jenkins/workspace/csv-analyser-pipeline/artifacts/" 
+#local_jar_path: "{{ playbook_dir }}/../artifacts/{{ jar_filename }}" 
+local_jar_path: "/var/lib/jenkins/workspace/csv-analyser-pipeline/artifacts/" 
 # Path on the control node where Jenkins places the built jar (adjust if needed)
 
 # How to run the jar after deploy:
