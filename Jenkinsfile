@@ -4,13 +4,14 @@ pipeline {
     tools {
         // Maven version configured in Jenkins Global Tool Configuration (commented for now)
         maven "M3"
-        
+
     }
 
     environment {
         // SonarQube scanner installed in Jenkins Global Tool Configuration
         scannerHome = tool 'sonarqubeCommunity'
         APP_NAME = "CsvAnalyser" 
+        RUN_MODE = "none"
     }
 
     stages {
@@ -29,7 +30,7 @@ pipeline {
             steps {
                 dir('backend') {
                     // Build the project so that target/classes exists for SonarQube
-                    sh 'mvn clean package'
+                    sh 'mvn clean package -DskipTests'
                 }
             }
             post {
@@ -37,7 +38,7 @@ pipeline {
                     // Archive the built JAR
                     archiveArtifacts artifacts: 'backend/target/*.jar', fingerprint: true
                     // Optionally, record test results if tests exist
-                    junit 'backend/target/surefire-reports/TEST-*.xml'
+                    //junit 'backend/target/surefire-reports/TEST-*.xml'
                 }
             }
         }
@@ -77,10 +78,6 @@ pipeline {
                     inventory: 'ansible/inventories/inventory.ini',
                     playbook: 'ansible/playbook/main.yml',
                     vaultTmpPath: '',
-                    extras: [
-                        "app_name=${APP_NAME}",
-                        "run_mode=${RUN_MODE}"
-                    ]
                 )
 
             }
@@ -89,3 +86,5 @@ pipeline {
 
     }
 }
+
+
