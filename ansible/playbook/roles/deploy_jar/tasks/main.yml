@@ -31,8 +31,6 @@
   delegate_to: localhost
   run_once: true
 
-
-
 - name: Set deploy timestamp
   set_fact:
     deploy_ts: "{{ lookup('pipe','date +%Y%m%d%H%M%S') }}"
