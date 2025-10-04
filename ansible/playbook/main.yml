@@ -1,0 +1,7 @@
+---
+- name: Deploy myservice jar to microservice hosts
+  hosts: private
+  become: true
+  serial: "{{ serial | default(1) }}"
+  roles:
+    - role: deploy_jar

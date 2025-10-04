@@ -1,0 +1,29 @@
+---
+# defaults for deploy_jar role
+
+app_name: CsvAnalyser
+jar_filename: "{{ app_name }}-0.0.1-SNAPSHOT.jar"            # artifact filename
+deploy_dir: /opt/{{ app_name }}               # where jar will live on remote host
+backup_dir: "{{ deploy_dir }}/backup"
+app_user: ubuntu                              # user owning the files on remote host
+app_group: ubuntu
+#local_jar_path: "{{ playbook_dir }}/../artifacts/{{ jar_filename }}" 
+local_jar_path: "artifacts/{{ jar_filename }}" 
+# Path on the control node where Jenkins places the built jar (adjust if needed)
+
+# How to run the jar after deploy:
+# options: "none" (do not start), "systemd", "nohup"
+run_mode: "none"
+
+# systemd settings (used only if run_mode == "systemd")
+service_name: "{{ app_name }}"
+java_opts: "-Xms256m -Xmx512m"
+service_user: "{{ app_user }}"
+
+# Health check (optional). If not needed set health_uri: ""
+health_uri: "http://localhost:8080/actuator/health"
+health_retries: 6
+health_delay: 5   # seconds between retries
+
+# Rolling strategy specified at playbook level (serial)
+# Example: serial: 1 in playbook to do one host at a time

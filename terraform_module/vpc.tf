@@ -40,7 +40,11 @@ resource "aws_eip" "public_ip" {
   tags = {
     Name = "public-eip"
   }
-  instance = aws_instance.public.id
+}
+
+resource "aws_eip_association" "public_assoc" {
+  instance_id   = aws_instance.public.id
+  allocation_id = aws_eip.public_ip.id
 }
 
 

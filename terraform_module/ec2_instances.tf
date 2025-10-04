@@ -9,6 +9,7 @@ resource "aws_instance" "public" {
   tags = {
     Name = "public-jenkins"
   }
+
 }
 
 resource "aws_instance" "private" {

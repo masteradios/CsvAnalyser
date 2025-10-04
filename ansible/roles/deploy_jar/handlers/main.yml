@@ -1,0 +1,16 @@
+---
+- name: systemd-daemon-reload
+  become: true
+  systemd:
+    daemon_reload: yes
+
+- name: restart-app
+  become: true
+  systemd:
+    name: "{{ service_name }}"
+    state: restarted
+    enabled: yes
+
+- name: mark-jar-changed
+  debug:
+    msg: "Jar uploaded — change flagged"

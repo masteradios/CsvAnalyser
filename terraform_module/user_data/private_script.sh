@@ -11,4 +11,4 @@ update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
 
 
 
-#sqa_60a407fe8b2dec5fe4c51273b77c5efc69b3ba3c
+#squ_cfd0e8d34c3e5ce05580238d6146fbd3e44ad223 

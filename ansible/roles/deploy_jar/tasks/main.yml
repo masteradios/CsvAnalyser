@@ -1,0 +1,146 @@
+---
+- name: Ensure deploy directory exists
+  become: true
+  file:
+    path: "{{ deploy_dir }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_group }}"
+    mode: '0755'
+
+- name: Ensure backup directory exists
+  become: true
+  file:
+    path: "{{ backup_dir }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_group }}"
+    mode: '0755'
+
+- name: Check that local JAR exists on control node
+  stat:
+    path: "{{ local_jar_path }}"
+  register: local_jar_stat
+  delegate_to: localhost
+  run_once: true
+
+- name: Fail if local JAR is missing
+  fail:
+    msg: "Local artifact not found at {{ local_jar_path }} (control node). Place the built jar there before running playbook."
+  when: not local_jar_stat.stat.exists
+  run_once: true
+
+- name: Set deploy timestamp
+  set_fact:
+    deploy_ts: "{{ lookup('pipe','date +%Y%m%d%H%M%S') }}"
+  run_once: true
+
+- name: Stat remote current jar
+  stat:
+    path: "{{ deploy_dir }}/{{ jar_filename }}"
+  register: remote_jar
+
+- name: Backup current jar if exists
+  when: remote_jar.stat.exists
+  become: true
+  command: >
+    mv {{ deploy_dir }}/{{ jar_filename }} {{ backup_dir }}/{{ app_name }}-{{ deploy_ts }}.jar
+  args:
+    removes: "{{ deploy_dir }}/{{ jar_filename }}"
+
+- name: Copy jar from control node to remote (as .new)
+  copy:
+    src: "{{ local_jar_path }}"
+    dest: "{{ deploy_dir }}/{{ jar_filename }}.new"
+    owner: "{{ app_user }}"
+    group: "{{ app_group }}"
+    mode: '0755'
+  notify: mark-jar-changed
+
+- name: Move new jar into place (atomic-ish)
+  become: true
+  command: mv "{{ deploy_dir }}/{{ jar_filename }}.new" "{{ deploy_dir }}/{{ jar_filename }}"
+  args:
+    removes: "{{ deploy_dir }}/{{ jar_filename }}.new"
+
+- name: Ensure systemd unit present (only when run_mode == systemd)
+  become: true
+  template:
+    src: myservice.service.j2
+    dest: /etc/systemd/system/{{ service_name }}.service
+    mode: '0644'
+  when: run_mode == 'systemd'
+  notify:
+    - systemd-daemon-reload
+    - restart-app
+
+- block:
+    - name: Start app via systemd (if configured)
+      become: true
+      systemd:
+        name: "{{ service_name }}"
+        state: started
+        enabled: yes
+      when: run_mode == 'systemd'
+
+    - name: Start app via nohup (if configured)
+      become: true
+      become_user: "{{ app_user }}"
+      shell: "nohup /usr/bin/java {{ java_opts }} -jar {{ deploy_dir }}/{{ jar_filename }} > {{ deploy_dir }}/{{ app_name }}.log 2>&1 &"
+      args:
+        executable: /bin/bash
+      when: run_mode == 'nohup'
+
+    - name: Wait for service to become healthy (if health_uri set)
+      uri:
+        url: "{{ health_uri }}"
+        status_code: 200
+        return_content: no
+        validate_certs: no
+        timeout: 5
+      register: health_check
+      retries: "{{ health_retries }}"
+      delay: "{{ health_delay }}"
+      until: health_check.status == 200
+      when: health_uri != ""
+
+  rescue:
+    - name: Health check failed — attempt rollback (stop/restore)
+      block:
+        - name: Stop started service (systemd)
+          become: true
+          systemd:
+            name: "{{ service_name }}"
+            state: stopped
+          when: run_mode == 'systemd'
+          ignore_errors: true
+
+        - name: Kill nohup java process (if run_mode == nohup)
+          become: true
+          shell: |
+            pkill -f "{{ deploy_dir }}/{{ jar_filename }}" || true
+          when: run_mode == 'nohup'
+          ignore_errors: true
+
+        - name: Restore previous jar if available
+          become: true
+          shell: |
+            if [ -f "{{ backup_dir }}/{{ app_name }}-{{ deploy_ts }}.jar" ]; then
+              mv "{{ backup_dir }}/{{ app_name }}-{{ deploy_ts }}.jar" "{{ deploy_dir }}/{{ jar_filename }}"
+            fi
+          args:
+            executable: /bin/bash
+          ignore_errors: true
+
+        - name: Start previous jar via systemd (if applicable)
+          become: true
+          systemd:
+            name: "{{ service_name }}"
+            state: started
+          when: run_mode == 'systemd'
+          ignore_errors: true
+
+      always:
+        - name: Fail the play for this host so Jenkins logs it
+          fail:
+            msg: "Deployment failed and rollback attempted on {{ inventory_hostname }}. Check host logs."

@@ -4,11 +4,13 @@ pipeline {
     tools {
         // Maven version configured in Jenkins Global Tool Configuration (commented for now)
         maven "M3"
+        
     }
 
     environment {
         // SonarQube scanner installed in Jenkins Global Tool Configuration
         scannerHome = tool 'sonarqubeCommunity'
+        APP_NAME = "CsvAnalyser" 
     }
 
     stages {
@@ -54,5 +56,36 @@ pipeline {
                 }
             }
         }
+
+
+        stage('Copy jar into artifacts folder') {
+            steps {
+                sh """
+
+                mkdir -p artifacts
+                cp backend/target/${APP_NAME}-0.0.1-SNAPSHOT.jar artifacts/${APP_NAME}-0.0.1-SNAPSHOT.jar
+                """
+            }
+        }
+
+        stage('Deploy using Ansible'){
+            steps{
+
+                ansiblePlaybook(
+                    credentialsId: 'sshIntoPrivateInstances', // SSH key or user
+                    installation: 'ansible',                  // Name of Ansible installed in Jenkins Tools
+                    inventory: 'ansible/inventories/inventory.ini',
+                    playbook: 'ansible/playbook/main.yml',
+                    vaultTmpPath: '',
+                    extras: [
+                        "app_name=${APP_NAME}",
+                        "run_mode=${RUN_MODE}"
+                    ]
+                )
+
+            }
+        }
+
+
     }
 }
