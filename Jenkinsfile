@@ -12,6 +12,7 @@ pipeline {
         scannerHome = tool 'sonarqubeCommunity'
         APP_NAME = "CsvAnalyser" 
         RUN_MODE = "none"
+        ANSIBLE_HOST_KEY_CHECKING = 'False'
     }
 
     stages {

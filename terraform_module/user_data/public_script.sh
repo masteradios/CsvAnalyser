@@ -31,3 +31,21 @@ apt-get update -y
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 systemctl enable docker
 systemctl start docker
+
+
+
+#Install Ansible
+apt-get update -y
+apt-get upgrade -y
+
+# Install prerequisites
+apt-get install -y software-properties-common gnupg
+
+# Add the official Ansible PPA
+add-apt-repository --yes --update ppa:ansible/ansible
+
+# Refresh package lists
+apt-get update -y
+
+# Install Ansible
+apt-get install -y ansible
