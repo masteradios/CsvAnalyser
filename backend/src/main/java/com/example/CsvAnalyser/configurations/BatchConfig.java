@@ -171,6 +171,7 @@
 package com.example.CsvAnalyser.configurations;
 
 import com.example.CsvAnalyser.models.LogEntry;
+import com.example.CsvAnalyser.services.ChunkProgressListener;
 import com.example.CsvAnalyser.services.LogItemProcessor;
 import com.example.CsvAnalyser.services.MetricsCollector;
 import com.example.CsvAnalyser.services.ReportWriter;
@@ -317,6 +318,7 @@ public class BatchConfig {
     public Step step1(FlatFileItemReader<LogEntry> reader,
                       ItemProcessor<LogEntry, LogEntry> processor,
                       ItemWriter<LogEntry> writer,
+                      ChunkProgressListener chunkProgressListener,
                       org.springframework.batch.core.repository.JobRepository jobRepository,
                       org.springframework.transaction.PlatformTransactionManager transactionManager) {
 
@@ -324,6 +326,7 @@ public class BatchConfig {
                 .<LogEntry, LogEntry>chunk(10000, transactionManager)
                 .reader(reader)
                 .processor(processor)
+                .listener(chunkProgressListener)
                 .writer(writer)
                 .build();
     }

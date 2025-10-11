@@ -1,0 +1,16 @@
+=== Log Analysis Report ===
+
+Total Rows Processed: 99
+
+Response Status Counts:
+404 : 3
+200 : 96
+
+Country-wise IP Counts:
+United States : 8
+China : 31
+France : 4
+Germany : 55
+Russia : 1
+
+Unique Paths Accessed: 34

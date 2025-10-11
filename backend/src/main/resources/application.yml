@@ -9,11 +9,3 @@ spring:
   batch:
     initialize-schema: always
 
-logging:
-  level:
-    org.springframework.batch: ERROR
-  file.name: C:/Users/reach/Desktop/application.log
-
-  batch:
-    jdbc:
-      initialize-schema: "never"

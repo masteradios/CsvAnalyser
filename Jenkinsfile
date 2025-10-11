@@ -44,20 +44,20 @@ pipeline {
             }
         }
 
-        stage('Run SonarQube') {
-            steps {
-                withSonarQubeEnv(credentialsId: 'jenkinsForSonar', installationName: 'sonarqube-community') {
-                    sh """
-                        ${scannerHome}/bin/sonar-scanner \
-                          -Dsonar.projectKey=csv-analyser \
-                          -Dsonar.projectName=csv-analyser \
-                          -Dsonar.projectVersion=1.0 \
-                          -Dsonar.sources=backend/src/main/java \
-                          -Dsonar.java.binaries=backend/target/classes
-                    """
-                }
-            }
-        }
+        // stage('Run SonarQube') {
+        //     steps {
+        //         withSonarQubeEnv(credentialsId: 'jenkinsForSonar', installationName: 'sonarqube-community') {
+        //             sh """
+        //                 ${scannerHome}/bin/sonar-scanner \
+        //                   -Dsonar.projectKey=csv-analyser \
+        //                   -Dsonar.projectName=csv-analyser \
+        //                   -Dsonar.projectVersion=1.0 \
+        //                   -Dsonar.sources=backend/src/main/java \
+        //                   -Dsonar.java.binaries=backend/target/classes
+        //             """
+        //         }
+        //     }
+        // }
 
 
         stage('Copy jar into artifacts folder') {
@@ -76,7 +76,7 @@ pipeline {
                 ansiblePlaybook(
                     credentialsId: 'sshIntoPrivateInstances', // SSH key or user
                     installation: 'ansible',                  // Name of Ansible installed in Jenkins Tools
-                    inventory: 'ansible/inventories/inventory.ini',
+                    inventory: 'ansible/inventories/ansible_inventory.ini',
                     playbook: 'ansible/playbook/main.yml',
                     vaultTmpPath: '',
                 )

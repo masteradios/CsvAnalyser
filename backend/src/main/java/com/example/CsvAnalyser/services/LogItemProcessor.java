@@ -14,7 +14,6 @@ public class LogItemProcessor implements ItemProcessor<LogEntry, LogEntry> {
     public LogEntry process(LogEntry logEntry) throws Exception {
         try {
             String ip = logEntry.getIp();
-            System.out.println("prinitng "+ ip);
             // Skip empty, header, or malformed IPs
             if (ip == null || ip.equalsIgnoreCase("IP") || ip.equals("-")) {
                 logEntry.setCountry("UNKNOWN");
