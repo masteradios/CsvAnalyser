@@ -15,6 +15,17 @@ It is integrated with a **CI/CD pipeline** powered by **Jenkins**, **SonarQube**
 - **Email Extension Plugin** — Build notifications  
 
 ---
+<img width="1920" height="977" alt="jenkins " src="https://github.com/user-attachments/assets/b84ffcaa-8ab1-4716-b68c-6f3c5ad9d398" />
+<img width="1920" height="951" alt="sonar" src="https://github.com/user-attachments/assets/10986b78-31cd-4b9a-8733-fe457675f2e9" />
+<img width="1840" height="510" alt="gmail" src="https://github.com/user-attachments/assets/390b056d-313a-419d-894e-c086536c8250" />
+<img width="648" height="347" alt="output" src="https://github.com/user-attachments/assets/891d70ae-8f2f-461b-a533-97be36c75640" />
+
+
+
+
+
+
+
 
 ## Terraform Infrastructure
 
@@ -129,7 +140,7 @@ To run the `CsvAnalyser` JAR from the command line, use the following syntax:
 java -jar CsvAnalyser-0.0.1-SNAPSHOT.jar inputFile=<inputFilePath> outputFolder=<outputFolderPath>
 ```
 
-### 📝 Parameters:
+### Parameters:
 
 - `inputFile` — Path to the input CSV log file you want to analyze.  
   Example: `/opt/CsvAnalyser/resources/log.csv`
