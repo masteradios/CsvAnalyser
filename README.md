@@ -15,12 +15,19 @@ It is integrated with a **CI/CD pipeline** powered by **Jenkins**, **SonarQube**
 - **Email Extension Plugin** — Build notifications  
 
 ---
+
+### Jenkins Pipeline
 <img src="https://github.com/user-attachments/assets/b84ffcaa-8ab1-4716-b68c-6f3c5ad9d398" alt="jenkins" width="100%" style="border: 1px solid #ccc; margin-bottom: 20px;" />
 
+
+### SonarQube Project Analysis
 <img src="https://github.com/user-attachments/assets/10986b78-31cd-4b9a-8733-fe457675f2e9" alt="sonar" width="100%" style="border: 1px solid #ccc; margin-bottom: 20px;" />
 
+### Email notification
 <img src="https://github.com/user-attachments/assets/390b056d-313a-419d-894e-c086536c8250" alt="gmail" width="100%" style="border: 1px solid #ccc; margin-bottom: 20px;" />
 
+
+### JAR Output
 <img src="https://github.com/user-attachments/assets/891d70ae-8f2f-461b-a533-97be36c75640" alt="output" width="50%" style="border: 1px solid #ccc; margin-bottom: 20px;" />
 
 
