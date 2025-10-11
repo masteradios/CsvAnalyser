@@ -46,6 +46,19 @@ Ansible automates the **deployment and management** of the CsvAnalyser applicati
    - Transfers the newly built JAR from the Jenkins control node to `/opt/CsvAnalyser/` on the target servers.
    - Sets appropriate permissions (`0755`) for execution.
 
+## Jenkinsfile – CI/CD Pipeline for CsvAnalyser
+
+The `Jenkinsfile` defines an automated **CI/CD pipeline** for the **CsvAnalyser** project. It orchestrates the end-to-end process of building, analyzing, packaging, and deploying the application in a consistent and repeatable manner.
+
+The pipeline performs the following tasks:
+
+- **Clones the source code** from the main branch of the project's GitHub repository.
+- **Builds the Spring Boot application** using Maven to generate a deployable JAR file.
+- **Runs static code analysis** using SonarQube to ensure code quality and enforce quality gates.
+- **Organizes build artifacts** by copying the final JAR into a designated `artifacts` folder.
+- **Deploys the application** to remote servers using Ansible, automating the deployment process via playbooks and SSH access.
+- **Sends email notifications** upon pipeline success or failure to keep the team informed.
+
 
 ##  Repository Structure
 CsvAnalyser/  
