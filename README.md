@@ -31,14 +31,6 @@ It is integrated with a **CI/CD pipeline** powered by **Jenkins**, **SonarQube**
 <img src="https://github.com/user-attachments/assets/891d70ae-8f2f-461b-a533-97be36c75640" alt="output" width="50%" style="border: 1px solid #ccc; margin-bottom: 20px;" />
 
 
-
-
-
-
-
-
-
-
 ## Terraform Infrastructure
 
 The `terraform_module` folder contains Terraform scripts to provision cloud infrastructure required for deploying **CsvAnalyser**.  
@@ -160,3 +152,4 @@ java -jar CsvAnalyser-0.0.1-SNAPSHOT.jar inputFile=<inputFilePath> outputFolder=
 - `outputFolder` — Directory where the analysis results will be saved.  
   Example: `/opt/CsvAnalyser/output`
 
+### Note : Sample logs file is present `backend/src/main/resources`
