@@ -119,11 +119,21 @@ Once your `Jenkinsfile` is committed:
 
 1. Create a new **Pipeline Job** in Jenkins.  
 2. Set **SCM** to your GitHub repository.  
-3. Run the pipeline — it will:
+3. Run the pipeline.
 
-Clone the repo  
-Build the Spring Boot JAR  
-Run SonarQube analysis  
-Copy JAR into `artifacts/`  
-Deploy via Ansible  
-Send email notifications  
+## Running CsvAnalyser JAR
+
+To run the `CsvAnalyser` JAR from the command line, use the following syntax:
+
+```bash
+java -jar CsvAnalyser-0.0.1-SNAPSHOT.jar inputFile=<inputFilePath> outputFolder=<outputFolderPath>
+```
+
+### 📝 Parameters:
+
+- `inputFile` — Path to the input CSV log file you want to analyze.  
+  Example: `/opt/CsvAnalyser/resources/log.csv`
+
+- `outputFolder` — Directory where the analysis results will be saved.  
+  Example: `/opt/CsvAnalyser/output`
+
