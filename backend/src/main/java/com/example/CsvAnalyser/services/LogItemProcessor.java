@@ -13,13 +13,23 @@ public class LogItemProcessor implements ItemProcessor<LogEntry, LogEntry> {
     @Override
     public LogEntry process(LogEntry logEntry) throws Exception {
         try {
-            String countryName = geoIpService.getCountryName(logEntry.getIp());
-            logEntry.setCountry(countryName);
+            String ip = logEntry.getIp();
+            System.out.println("prinitng "+ ip);
+            // Skip empty, header, or malformed IPs
+            if (ip == null || ip.equalsIgnoreCase("IP") || ip.equals("-")) {
+                logEntry.setCountry("UNKNOWN");
+                return logEntry;
+            }
+
+            String countryName = geoIpService.getCountryName(ip);
+            logEntry.setCountry(countryName != null ? countryName : "UNKNOWN");
+
         } catch (Exception e) {
             System.out.println("error came");
-            System.out.println(e);
+            e.printStackTrace();
             logEntry.setCountry("UNKNOWN");
         }
         return logEntry;
     }
+
 }

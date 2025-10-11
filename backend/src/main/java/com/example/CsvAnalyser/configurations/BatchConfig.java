@@ -29,7 +29,7 @@
 //import javax.sql.DataSource;
 //import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 //import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-//import org.springframework.validation.BindException;
+//import org.springframework.validation.reaBindException;
 //
 //import java.io.File;
 //
@@ -176,37 +176,56 @@ import com.example.CsvAnalyser.services.MetricsCollector;
 import com.example.CsvAnalyser.services.ReportWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.FieldSet;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.validation.BindException;
+
+import java.io.File;
 
 @Configuration
 public class BatchConfig {
 
     // === CSV resource ===
-    @Bean
-    public Resource logCsv() {
-        return new ClassPathResource("logs.csv");
-    }
+//    @Bean
+//    public Resource logCsv() {
+//        return new ClassPathResource("logs.csv");
+//    }
 
-    // === Reader ===
+//    @Bean
+//    @StepScope
+//    public FlatFileItemReader<LogEntry> reader(
+//            @Value("#{jobParameters['inputFile']}") String inputFile,
+//            MetricsCollector metricsCollector) {
+//        FlatFileItemReader<LogEntry> reader = new FlatFileItemReader<>();
+//        reader.setResource(new FileSystemResource(inputFile));
+//        reader.setLinesToSkip(1);
+//
+//        DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+//        tokenizer.setNames("IP", "Time", "Path", "Response");
+//
+//        DefaultLineMapper<LogEntry> lineMapper = new DefaultLineMapper<>();
+//        lineMapper.setLineTokenizer(tokenizer);
+//        lineMapper.setFieldSetMapper(new LogEntryFieldSetMapper(metricsCollector));
+//
+//        reader.setLineMapper(lineMapper);
+//        return reader;
+//    }
     @Bean
-    public FlatFileItemReader<LogEntry> reader(Resource logCsv, MetricsCollector metricsCollector) {
-        FlatFileItemReader<LogEntry> reader = new FlatFileItemReader<>();
-        reader.setResource(logCsv);
-        reader.setLinesToSkip(1);
-
+    @StepScope
+    public FlatFileItemReader<LogEntry> reader(@Value("#{jobParameters['inputFile']}") String inputFile,MetricsCollector metricsCollector) {
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
         tokenizer.setNames("IP", "Time", "Path", "Response");
 
@@ -214,11 +233,15 @@ public class BatchConfig {
         lineMapper.setLineTokenizer(tokenizer);
         lineMapper.setFieldSetMapper(new LogEntryFieldSetMapper(metricsCollector));
 
-        reader.setLineMapper(lineMapper);
-        return reader;
+        return new FlatFileItemReaderBuilder<LogEntry>()
+                .name("logItemReader")
+                .resource(new FileSystemResource(new File(inputFile))) // ✅ FIXED
+                .lineTokenizer(tokenizer)
+                .lineMapper(lineMapper)
+                .linesToSkip(1)
+                .targetType(LogEntry.class)
+                .build();
     }
-
-
     // === FieldSetMapper ===
     public static class LogEntryFieldSetMapper implements FieldSetMapper<LogEntry> {
 
@@ -259,13 +282,13 @@ public class BatchConfig {
             String response = fieldSet.readString("Response");
             if ("-".equals(response)) {
                 metrics.incrementInvalid("Response");
-                entry.setResponseStatus(0); // assuming Integer type
+                entry.setResponse(0); // assuming Integer type
             } else {
                 try {
-                    entry.setResponseStatus(Integer.parseInt(response));
+                    entry.setResponse(Integer.parseInt(response));
                 } catch (NumberFormatException e) {
                     metrics.incrementInvalid("Response");
-                    entry.setResponseStatus(0);
+                    entry.setResponse(0);
                 }
             }
 
@@ -280,11 +303,14 @@ public class BatchConfig {
         return new LogItemProcessor();
     }
 
-    // === Writer ===
-    @Bean
-    public ItemWriter<LogEntry> writer() {
-        return new ReportWriter();
-    }
+     //=== Writer ===
+     @Bean
+     @StepScope
+     public ItemWriter<LogEntry> writer(@Value("#{jobParameters['outputFolder']}") String outputFolder) {
+         return new ReportWriter(outputFolder);
+     }
+
+
 
     // === Step ===
     @Bean

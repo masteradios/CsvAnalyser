@@ -5,7 +5,7 @@ public class LogEntry {
     private String ip;
     private String time;
     private String path;
-    private int responseStatus;
+    private int response;
     private String country; // Filled during processing
 
     public LogEntry() {
@@ -35,12 +35,12 @@ public class LogEntry {
         this.path = path;
     }
 
-    public int getResponseStatus() {
-        return responseStatus;
+    public int getResponse() {
+        return response;
     }
 
-    public void setResponseStatus(int responseStatus) {
-        this.responseStatus = responseStatus;
+    public void setResponse(int response) {
+        this.response = response;
     }
 
     public String getCountry() {

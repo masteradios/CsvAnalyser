@@ -1,171 +1,163 @@
 === Log Analysis Report ===
 
-Total Rows Processed: 230813
+Total Rows Processed: 150000
 
 Response Status Counts:
 0 : 75
-417 : 2
-200 : 179796
-301 : 1183
-206 : 88
-303 : 16
-304 : 322
-400 : 2
+304 : 223
+400 : 1
 401 : 1
-83 : 18
-403 : 82
-500 : 1027
-404 : 48201
+83 : 10
+403 : 56
+500 : 558
+404 : 31596
+200 : 116275
+301 : 1128
+206 : 61
+303 : 16
 
 Country-wise IP Counts:
-null : 194
+null : 17
 Benin : 1
 Angola : 2
-Cambodia : 111
-Sudan : 3
-Paraguay : 7
-Kazakhstan : 220
-Portugal : 167
-Ã…land Islands : 2
+Cambodia : 33
+Sudan : 1
+Paraguay : 5
+Kazakhstan : 170
+Portugal : 142
+Åland Islands : 2
 Cayman Islands : 2
-Greece : 286
-Mongolia : 45
-Latvia : 634
-Morocco : 502
-Iran : 1257
-Panama : 29
-Guatemala : 47
-Iraq : 59
-Chile : 113
-Nepal : 17
-Argentina : 110
+Greece : 240
+Mongolia : 11
+Latvia : 460
+Morocco : 126
+Iran : 172
+Panama : 3
+Guatemala : 45
+Iraq : 20
+Chile : 84
+Nepal : 12
+Argentina : 93
 Tanzania : 6
-Seychelles : 434
-Ukraine : 2196
-Ghana : 36
-Belize : 7
-India : 4515
-Canada : 3956
+Seychelles : 253
+Ukraine : 1211
+Ghana : 33
+Belize : 4
+India : 2727
+Canada : 2209
 Maldives : 2
-Belgium : 1812
-Namibia : 2
-Taiwan : 321
-Finland : 3904
+Belgium : 1396
+Taiwan : 53
+Finland : 2436
 Trinidad and Tobago : 6
-South Africa : 620
-Bermuda : 22
-Georgia : 27
-Jamaica : 1
-Peru : 261
-TÃ¼rkiye : 1010
-Germany : 19037
+South Africa : 245
+Georgia : 24
+Peru : 81
+Türkiye : 608
+Germany : 14613
 Yemen : 18
-Puerto Rico : 8
-Tokelau : 4
-Hong Kong : 824
-Guinea : 2
-United States : 53897
+Puerto Rico : 6
+Tokelau : 2
+Hong Kong : 526
+Guinea : 1
+United States : 39629
 Somalia : 2
 Chad : 1
 Madagascar : 2
 Ivory Coast : 3
-Thailand : 262
-Libya : 24
-Costa Rica : 4
-Vietnam : 259
-Sweden : 1361
-Andorra : 398
+Thailand : 130
+Libya : 21
+Costa Rica : 1
+Vietnam : 96
+Sweden : 649
+Andorra : 3
 Liechtenstein : 2
-Poland : 949
+Poland : 670
 Kuwait : 4
-Jordan : 57
-Nigeria : 91
-Bulgaria : 473
-Tunisia : 242
+Jordan : 22
+Nigeria : 24
+Bulgaria : 449
+Tunisia : 190
 Congo Republic : 2
-Croatia : 19
+Croatia : 13
 Sri Lanka : 33
 Uruguay : 131
-United Kingdom : 6349
-United Arab Emirates : 287
-Kenya : 76
-Switzerland : 1025
+United Kingdom : 4969
+United Arab Emirates : 194
+Kenya : 69
+Switzerland : 500
 Palestine : 9
-Spain : 1384
-Lebanon : 60
-Azerbaijan : 67
-Venezuela : 14
+Spain : 898
+Lebanon : 56
+Azerbaijan : 61
+Venezuela : 12
 Burkina Faso : 1
-Israel : 1816
-Australia : 538
-Estonia : 1181
-The Netherlands : 9031
-Myanmar : 37
-Cyprus : 83
-Malaysia : 7
-Oman : 2
+Israel : 971
+Australia : 336
+Estonia : 1162
+The Netherlands : 7816
+Myanmar : 36
+Cyprus : 47
+Malaysia : 3
 Iceland : 5
-Armenia : 14
-South Korea : 256
-Austria : 46105
-Mozambique : 1
-El Salvador : 82
-Luxembourg : 167
-Brazil : 5548
-Algeria : 96
-Slovenia : 85
+Armenia : 12
+South Korea : 244
+Austria : 26180
+El Salvador : 44
+Luxembourg : 23
+Brazil : 2726
+Algeria : 6
+Slovenia : 9
 Antigua and Barbuda : 2
-Colombia : 198
-Ecuador : 240
-Hungary : 555
-RÃ©union : 1
-Japan : 578
-Moldova : 114
-Belarus : 87
-Mauritius : 21
-Albania : 21
-New Zealand : 40
-Senegal : 1
-DR Congo : 6
-Honduras : 83
-Italy : 952
-Afghanistan : 9
-Singapore : 1606
+Colombia : 172
+Ecuador : 198
+Hungary : 349
+Réunion : 1
+Japan : 342
+Moldova : 104
+Belarus : 86
+Mauritius : 1
+Albania : 16
+New Zealand : 37
+DR Congo : 2
+Honduras : 44
+Italy : 364
+Afghanistan : 8
+Singapore : 564
 French Guiana : 38
-Czechia : 812
-Egypt : 602
+Czechia : 520
+Egypt : 490
 Sierra Leone : 2
-Bolivia : 38
+Bolivia : 12
 Malta : 51
-Russia : 10186
-Saudi Arabia : 307
-Pakistan : 320
+Russia : 7219
+Saudi Arabia : 182
+Pakistan : 231
 Kosovo : 17
-Qatar : 54
-Ireland : 866
-China : 9759
-Slovakia : 141
-Lithuania : 1479
-Serbia : 613
-France : 21861
+Ireland : 614
+China : 6016
+Slovakia : 44
+Lithuania : 1469
+Serbia : 495
+France : 11388
 Bosnia and Herzegovina : 23
 Kyrgyzstan : 7
-Romania : 362
+Romania : 250
 Togo : 3
 Niger : 2
-Philippines : 163
+Philippines : 102
 Uzbekistan : 9
-Bangladesh : 403
+Bangladesh : 234
 Nicaragua : 6
-Norway : 211
-Botswana : 60
-Dominican Republic : 8
-British Virgin Islands : 12
-Denmark : 1212
+Norway : 108
+Botswana : 25
+Dominican Republic : 6
+British Virgin Islands : 6
+Denmark : 827
 Uganda : 16
-Mexico : 640
-UNKNOWN : 7
-Montenegro : 5
-Indonesia : 623
+Mexico : 324
+UNKNOWN : 2
+Montenegro : 3
+Indonesia : 402
 
-Unique Paths Accessed: 10719
+Unique Paths Accessed: 9278
