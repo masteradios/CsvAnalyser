@@ -16,7 +16,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout source code from Github') {
             steps {
                 git branch: 'main', url: 'https://github.com/masteradios/CsvAnalyser.git'
             }
@@ -27,7 +27,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build JAR using maven') {
             steps {
                 dir('backend') {
                     // Build the project so that target/classes exists for SonarQube
@@ -44,20 +44,20 @@ pipeline {
             }
         }
 
-        // stage('Run SonarQube') {
-        //     steps {
-        //         withSonarQubeEnv(credentialsId: 'jenkinsForSonar', installationName: 'sonarqube-community') {
-        //             sh """
-        //                 ${scannerHome}/bin/sonar-scanner \
-        //                   -Dsonar.projectKey=csv-analyser \
-        //                   -Dsonar.projectName=csv-analyser \
-        //                   -Dsonar.projectVersion=1.0 \
-        //                   -Dsonar.sources=backend/src/main/java \
-        //                   -Dsonar.java.binaries=backend/target/classes
-        //             """
-        //         }
-        //     }
-        // }
+        stage('Run SonarQube Tests') {
+            steps {
+                withSonarQubeEnv(credentialsId: 'jenkinsForSonar', installationName: 'sonarqube-community') {
+                    sh """
+                        ${scannerHome}/bin/sonar-scanner \
+                          -Dsonar.projectKey=csv-analyser \
+                          -Dsonar.projectName=csv-analyser \
+                          -Dsonar.projectVersion=1.0 \
+                          -Dsonar.sources=backend/src/main/java \
+                          -Dsonar.java.binaries=backend/target/classes
+                    """
+                }
+            }
+        }
 
 
         stage('Copy jar into artifacts folder') {
@@ -70,7 +70,7 @@ pipeline {
             }
         }
 
-        stage('Deploy using Ansible'){
+        stage('Deploy on private instances using Ansible'){
             steps{
 
                 ansiblePlaybook(
@@ -86,6 +86,22 @@ pipeline {
 
 
     }
+    post {
+        success {
+            
+            
+            mail to: 'your@gmail.com',
+                 subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Build URL: ${env.BUILD_URL}"
+        }
+        failure {
+            
+            mail to: 'your@gmail.com',
+                 subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "Build URL: ${env.BUILD_URL}"
+        }
+    }
+
 }
 
 

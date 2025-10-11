@@ -8,7 +8,3 @@ apt-get install -y openjdk-17-jdk
 update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1
 update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
 
-
-
-
-#squ_488b808a7c388d3d7b26ea552c68b69ba18b71a3
